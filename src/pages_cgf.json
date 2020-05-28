@@ -1,0 +1,11 @@
+{
+    "pages_path" : "",
+    "cfg":
+    [        
+        {"image": "./GitHub-Mark-120px-plus.png", "name":"Github", "page":"./github.tsx"},
+        {"image": "./info-button.png", "name":"About", "page":"./about.tsx"},
+        {"image": "./settings.png", "name":"Preferences", "page":"./preferences.tsx"},
+        {"image": "./portfolio.png", "name":"Experience", "page":"./experience.tsx"},
+        {"image": "./tetris.png", "name": "Tetris", "page": "./tetris.tsx"}
+    ]
+}
