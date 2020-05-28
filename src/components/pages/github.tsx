@@ -8,7 +8,7 @@ export default function Page() {
       <StyledCard>
         <StyledText>The first project is a web application that you are currently using ( that mac-like portfolio web app )</StyledText>
         <StyledText>
-          <a href="https://github.com/Shocopop/profile-react">Current Project</a>
+          <a href="https://github.com/Shocopop/react-pixi-desktop">react-pixi-desktop</a>
         </StyledText>
       </StyledCard>
       <StyledText>Runtimes/libraries used :</StyledText>

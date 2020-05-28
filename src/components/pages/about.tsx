@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyledTitle, StyledText, StyledCard } from '../../styled/StyledComponents';
-const photo1 = require('../../img/me.jpg');
+const photo1 = require('../../img/me3.jpg');
 const photo2 = require('../../img/me2.jpg');
 
 export default function Page() {
