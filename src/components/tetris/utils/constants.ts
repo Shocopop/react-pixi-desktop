@@ -1,25 +1,26 @@
-interface colorPalette {
+interface ColorTheme {
   primary: number;
   secondary: number;
   bg: number;
   textColor: number;
 }
-let colors: colorPalette[] = [
-  {
-    primary: 0xdddddd,
-    secondary: 0xaabbbb,
-    bg: 0xeeeeee,
-    textColor: 0x333333,
-  },
-  {
-    primary: 0xdddddd,
-    secondary: 0xaabbbb,
-    bg: 0xeeeeee,
-    textColor: 0x333333,
-  },
-];
-export function getColors(): colorPalette {
-  return DarkMode ? colors[1] : colors[0];
+
+let LightColorTheme: ColorTheme = {
+  primary: 0xdddddd,
+  secondary: 0xaabbbb,
+  bg: 0xeeeeee,
+  textColor: 0x333333,
+};
+
+let DarkColorTheme: ColorTheme = {
+  primary: 0x333333,
+  secondary: 0x666666,
+  bg: 0xbbbbbb,
+  textColor: 0xaaaaaa,
+};
+
+export function getColors(): ColorTheme {
+  return DarkMode ? DarkColorTheme : LightColorTheme;
 }
 export let cellSize: number = 20;
 // screenSize
@@ -34,9 +35,8 @@ export let CC = {
 };
 
 export let DarkMode: boolean = false;
-export function SetDarkModeConst(darkMode: boolean) {
+export function SetDarkModeTetris(darkMode: boolean) {
   DarkMode = darkMode;
-  console.log(DarkMode);
 }
 
 export const blockRotateAnchors: Array<number[][]> = [

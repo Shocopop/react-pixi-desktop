@@ -69,7 +69,7 @@ export class gameplay {
     this.ticker.start();
     this.board.AddBlock(block.GetNewRandomBlock());
     this.gameplayUI.RenderNextBlock(this.nextBlock);
-    this.gameplayUI.UpdateScore(0, 0, this.stats.bestScore);
+    this.gameplayUI.UpdateScore(0, this.stats.bestScore, 0);
     for (let i = 0; i < this.stats.blockStats.length; i++) this.gameplayUI.UpdateBlockStats(i, 0);
   }
 

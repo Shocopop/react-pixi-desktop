@@ -6,7 +6,7 @@ import { ThemeProvider } from 'styled-components';
 import { Light, Dark, DarkModeContext } from './styled/Themes';
 import { StyledBody } from './styled/StyledComponents';
 import { GlobalTableStyles } from './styled/GlobalStyles';
-import { SetDarkModeConst } from './components/tetris/utils/constants';
+import { SetDarkModeTetris } from './components/tetris/utils/constants';
 
 export default function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -22,7 +22,7 @@ export default function App() {
           DarkMode: darkMode,
           SetDarkMode: (darkMode: boolean) => {
             setDarkMode(darkMode);
-            SetDarkModeConst(darkMode);
+            SetDarkModeTetris(darkMode);
           },
         }}
       >

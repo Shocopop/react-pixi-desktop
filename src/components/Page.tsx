@@ -10,30 +10,26 @@ export default function Page(Props: {
   onCloseCb: () => void;
   onFocusCb: () => void;
 }) {
-  const [pos, set] = useSpring(() => ({ x: 0, y: 0 }));
+  const [{ x, y }, set] = useSpring(() => ({ x: 0, y: 0 }));
   const lastPosRef = useRef({ x: 0, y: 0 });
   const [hovering, setHovering] = useState(false);
   const bind = useDrag(({ down, movement: [mx, my] }) => {
     if (!down) {
       lastPosRef.current = { x: lastPosRef.current.x + mx, y: lastPosRef.current.y + my };
-      set({ x: lastPosRef.current.x, y: lastPosRef.current.y, config: { friction: 200, tension: 10000 } });
+      set({ x: lastPosRef.current.x, y: lastPosRef.current.y, immediate: true });
     } else {
-      set({ x: lastPosRef.current.x + mx, y: lastPosRef.current.y + my, config: { friction: 200, tension: 10000 } });
+      set({ x: lastPosRef.current.x + mx, y: lastPosRef.current.y + my, immediate: true });
     }
   });
   const hoverBind = useHover(active => {
     setHovering(active.hovering);
   });
   return (
-    <StyledPage
-      onMouseDown={Props.onFocusCb}
-      zindex={Props.zIndex}
-      style={{ transform: interpolate([pos.x, pos.y], (x, y) => `translate3d(${x}px,${y}px,0)`) }}
-    >
+    <StyledPage onMouseDown={Props.onFocusCb} zindex={Props.zIndex} style={{ x, y }}>
       <StyledPageHeader {...bind()}>
         <StyledPageButtonDiv {...hoverBind()}>
           <StyledPageButton.Close onClick={Props.onCloseCb} hovering={hovering} />
-          <StyledPageButton.Minimize hovering={hovering} />
+          <StyledPageButton.Minimize onClick={Props.onCloseCb} hovering={hovering} />
           <StyledPageButton.Enlarge hovering={hovering} />
         </StyledPageButtonDiv>
         <span>{Props.name}</span>
