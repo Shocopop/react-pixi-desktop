@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useContext } from 'react';
-import TopBar from './components/TopBar';
+import Desktop from './components/Desktop';
 import { Helmet } from 'react-helmet';
 import { ThemeProvider } from 'styled-components';
 import { Light, Dark, DarkModeContext } from './styled/Themes';
@@ -29,7 +29,7 @@ export default function App() {
         <ThemeProvider theme={darkMode ? Dark : Light}>
           <GlobalTableStyles />
           <StyledBody>
-            <TopBar />
+            <Desktop></Desktop>
           </StyledBody>
         </ThemeProvider>
       </DarkModeContext.Provider>

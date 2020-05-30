@@ -1,3 +1,6 @@
+import { LightGrayColors, DarkGrayColors } from '../../../styled/Themes';
+import { utils as PIXIUtils } from 'pixi.js';
+
 interface ColorTheme {
   primary: number;
   secondary: number;
@@ -5,18 +8,22 @@ interface ColorTheme {
   textColor: number;
 }
 
+const normalize8bit = function(colors: [number, number, number]) {
+  return colors.map(v => v / 255);
+};
+
 let LightColorTheme: ColorTheme = {
-  primary: 0xdddddd,
-  secondary: 0xaabbbb,
-  bg: 0xeeeeee,
-  textColor: 0x333333,
+  primary: PIXIUtils.rgb2hex(normalize8bit(LightGrayColors[3])),
+  secondary: PIXIUtils.rgb2hex(normalize8bit(LightGrayColors[4])),
+  bg: PIXIUtils.rgb2hex(normalize8bit(LightGrayColors[1])),
+  textColor: PIXIUtils.rgb2hex(normalize8bit(LightGrayColors[5])),
 };
 
 let DarkColorTheme: ColorTheme = {
-  primary: 0x333333,
-  secondary: 0x666666,
-  bg: 0xbbbbbb,
-  textColor: 0xaaaaaa,
+  primary: PIXIUtils.rgb2hex(normalize8bit(DarkGrayColors[3])),
+  secondary: PIXIUtils.rgb2hex(normalize8bit(DarkGrayColors[4])),
+  bg: PIXIUtils.rgb2hex(normalize8bit(DarkGrayColors[1])),
+  textColor: PIXIUtils.rgb2hex(normalize8bit(DarkGrayColors[5])),
 };
 
 export function getColors(): ColorTheme {

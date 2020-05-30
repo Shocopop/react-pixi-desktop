@@ -9,7 +9,7 @@ let Pages: Array<{ name: string; page: React.FunctionComponent<{}> }> = [];
 for (let i = 0; i < pages_cfg.cfg.length; i++) Pages.push({ name: pages_cfg.cfg[i].name, page: pages(pages_cfg.cfg[i].page).default });
 const nPages = Pages.length;
 
-export default function PageController(Props: { width: number; cb: React.MutableRefObject<(n: number) => void> }) {
+export default function PageController(Props: { cb: React.MutableRefObject<(n: number) => void> }) {
   const [pagesActiveness, setPages] = useState(new Array<number>());
   function setPageActive(n: number) {
     if (!pagesActiveness.includes(n)) setPages(pagesActiveness.concat(n));
@@ -23,7 +23,13 @@ export default function PageController(Props: { width: number; cb: React.Mutable
   Props.cb.current = setPageActive;
 
   return (
-    <div style={{ margin: 'auto', width: Props.width + 'px', maxWidth: Props.width + 'px', minWidth: Props.width + 'px' }}>
+    <div
+      style={{
+        position: 'fixed',
+        top: '0',
+        left: '0',
+      }}
+    >
       {pagesActiveness.map((v, index) => (
         <Page
           key={v}
@@ -32,6 +38,10 @@ export default function PageController(Props: { width: number; cb: React.Mutable
           zIndex={index}
           onCloseCb={() => setPageInactive(v)}
           onFocusCb={() => bringPageToFront(v)}
+          minWidth={512}
+          minHeight={512}
+          width={512}
+          height={512}
         />
       ))}
     </div>

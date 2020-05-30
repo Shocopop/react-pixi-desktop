@@ -1,8 +1,8 @@
 import React from 'react';
 
 const circleStyle = {
-  width: '60px',
-  height: '60px',
+  width: '45px',
+  height: '45px',
   margin: '0px',
   alignItems: 'center',
 };

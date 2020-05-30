@@ -1,12 +1,11 @@
 import React, { useRef } from 'react';
-import { StyledFooter, StyledNavbar } from '../styled/StyledComponents';
+import { StyledFooter, StyledNavbar, StyledNavbarBackground, StyledNavbarBlur } from '../styled/StyledComponents';
 import NavBarNob from './TopBarNob';
 import Container from 'react-bootstrap/Container';
 import { useGesture } from 'react-use-gesture';
 import { useSpring, useSprings, interpolate, animated } from 'react-spring';
 import { clamp } from 'lodash';
 import * as pages_cfg from '../pages_cgf.json';
-import PageController from './PagesController';
 const images = require.context('../img', false);
 
 let Nobs: Array<{ name: string; img: string }> = [];
@@ -14,7 +13,7 @@ for (let i = 0; i < pages_cfg.cfg.length; i++) Nobs.push({ name: pages_cfg.cfg[i
 
 const NumNobs = Nobs.length;
 const NobsMidNum = NumNobs * 0.5 - 0.5;
-const NobsDx = 70;
+const NobsDx = 55;
 const dxMovement = 20;
 const barWidth = NobsDx * NumNobs;
 const barWidthEnlarged = barWidth + dxMovement * 3;
@@ -27,7 +26,7 @@ const to = (dn: number, isActive: boolean) => {
   return { x: dsize * dxMovement, y: _dscale * NobsDx * 0.5, scale: _dscale + 1 };
 };
 
-export default function TopBar() {
+export default function TopBar(Props: { onElementTap: (n: number) => void }) {
   const [springs, set] = useSprings(NumNobs, i => ({ ...to(0, false) }));
   const [barSpring, setBar] = useSpring(() => ({ scale: 1, x: NobsMidNum }));
   const bind = useGesture({
@@ -52,11 +51,6 @@ export default function TopBar() {
     },
   });
 
-  const numPage = useRef((n: number) => {});
-  function onNobTouch(n: number) {
-    numPage.current(n);
-  }
-
   return (
     <Container>
       <StyledNavbar
@@ -67,6 +61,8 @@ export default function TopBar() {
         }}
         {...bind()}
       >
+        <StyledNavbarBackground></StyledNavbarBackground>
+        <StyledNavbarBlur></StyledNavbarBlur>
         <animated.div
           style={{
             transform: interpolate([barSpring.scale], scale => `scale(${1 / scale}, 1)`),
@@ -81,14 +77,12 @@ export default function TopBar() {
                   transform: interpolate([x, y, scale], (x, y, scale) => `translate3d(${x}px,${y}px,0) scale(${scale})`),
                 }}
               >
-                <NavBarNob name={Nobs[i].name} image={Nobs[i].img} num={i} cb={onNobTouch}></NavBarNob>
+                <NavBarNob name={Nobs[i].name} image={Nobs[i].img} num={i} cb={Props.onElementTap}></NavBarNob>
               </animated.div>
             ))}
           </div>
         </animated.div>
       </StyledNavbar>
-      <PageController width={Math.max(NobsDx * (NumNobs + 1), 550)} cb={numPage}></PageController>
-      <StyledFooter>contact: achmyrov@gmail.com</StyledFooter>
     </Container>
   );
 }
