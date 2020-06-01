@@ -1,6 +1,5 @@
 import { board } from './component/board';
 import Cookies from 'js-cookie';
-Cookies.set('foo', 'bar');
 // import { Button, Popup, Text } from './utils/utils';
 import { gameplayUI } from './view/gameplayUI';
 import { CC, blockShapes } from './utils/constants';

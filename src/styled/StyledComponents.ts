@@ -70,6 +70,7 @@ export const StyledPageHeader = styled.div`
 `;
 
 export const StyledPageBody = styled.div`
+  margin: 0 auto;
   border-radius: 0 0 5px 5px;
   padding: 10px;
   height: 100%;
