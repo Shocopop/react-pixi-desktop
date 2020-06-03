@@ -2,7 +2,7 @@
 <p align="center">
  <img alt="npm type definitions" src="https://img.shields.io/npm/types/typescript">
  <a href="https://github.com/Shocopop/react-pixi-desktop/blob/master/LICENSE"><img alt="GitHub license"  src="https://img.shields.io/github/license/Shocopop/react-pixi-desktop"></a>
- <img alt="Website" src="https://img.shields.io/website?up_message=online&url=http%3A%2F%2Fachmyrov.com">
+ <a href="http://achmyrov.com"><img alt="Website" src="https://img.shields.io/website?up_message=online&url=http%3A%2F%2Fachmyrov.com"></a>
   <a href="https://github.com/Shocopop/react-pixi-desktop/issues"><img alt="GitHub issues"  src="https://img.shields.io/github/issues/Shocopop/react-pixi-desktop"></a>
  <img alt="GitHub commit activity" src="https://img.shields.io/github/commit-activity/m/Shocopop/react-pixi-desktop">
 </p>
