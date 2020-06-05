@@ -7,7 +7,8 @@ export default function disclaimer() {
       <h3>Disclaimer</h3>
       <hr />
       <StyledText>
-        This project is made purely for fun. It is far from being complete and awaits a lot more <b>featrues</b> and <b>fixes</b>.
+        This project is made purely for fun. It is far from being complete and awaits a lot more{' '}
+        <b>featrues</b> and <b>fixes</b>.
       </StyledText>
     </div>
   );

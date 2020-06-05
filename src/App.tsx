@@ -11,6 +11,7 @@ import Cookies from 'js-cookie';
 
 export default function App() {
   const [darkMode, setDarkMode] = useState(Number.parseInt(Cookies.get('darkMode') || '0') > 0);
+  SetDarkModeTetris(darkMode);
   return (
     <div>
       <Helmet>

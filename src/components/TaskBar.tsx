@@ -1,16 +1,18 @@
 import React, { useRef } from 'react';
-import { StyledNavbar, StyledNavbarBackground, StyledNavbarBlur, StyledNavbarContainer } from '../styled/StyledComponents';
+import {
+  StyledNavbar,
+  StyledNavbarBackground,
+  StyledNavbarBlur,
+  StyledNavbarContainer,
+} from '../styled/StyledComponents';
 import NavBarNob from './TopBarNob';
 import { useGesture } from 'react-use-gesture';
 import { useSpring, useSprings, interpolate, animated } from 'react-spring';
 import { clamp } from 'lodash';
-import * as pages_cfg from '../pages_cgf.json';
+import { PagesConfig } from './types/PageTypes';
 const images = require.context('../img', false);
 
-let Nobs: Array<{ name: string; img: string }> = [];
-for (let i = 0; i < pages_cfg.cfg.length; i++) Nobs.push({ name: pages_cfg.cfg[i].name, img: images(pages_cfg.cfg[i].image) });
-
-const NumNobs = Nobs.length;
+const NumNobs = PagesConfig.length;
 const NobsMidNum = NumNobs * 0.5 - 0.5;
 const NobsDx = 55;
 const dxMovement = 20;
@@ -32,7 +34,8 @@ export default function TaskBar(Props: { onElementTap: (n: number) => void }) {
     onMove: ({ xy }) => {
       const dx = xy[0] - window.innerWidth * 0.5;
       const mouseNx = clamp(NobsMidNum + dx / NobsDx, 0, NumNobs - 1);
-      const barOnSidesScale = (Math.max(1 - mouseNx, 0) + Math.max(mouseNx - NumNobs + 2, 0)) * (barScaleEnlarged - 1) * 0.5;
+      const barOnSidesScale =
+        (Math.max(1 - mouseNx, 0) + Math.max(mouseNx - NumNobs + 2, 0)) * (barScaleEnlarged - 1) * 0.5;
       setBarScaleAndPos({
         scale: barScaleEnlarged - barOnSidesScale,
         x: (NobsMidNum - mouseNx) * dxMovement * barOnSidesScale * 0.5,
@@ -54,7 +57,10 @@ export default function TaskBar(Props: { onElementTap: (n: number) => void }) {
     <StyledNavbarContainer style={{ zIndex: NumNobs + 1 }}>
       <StyledNavbar
         style={{
-          transform: interpolate([barSpring.scale, barSpring.x], (scale, x) => `translate3d(${x}px,0,0) scale(${scale}, 1)`),
+          transform: interpolate(
+            [barSpring.scale, barSpring.x],
+            (scale, x) => `translate3d(${x}px,0,0) scale(${scale}, 1)`,
+          ),
           width: NobsDx * (NumNobs + 0.5) + 'px',
         }}
         {...bind()}
@@ -72,10 +78,18 @@ export default function TaskBar(Props: { onElementTap: (n: number) => void }) {
                 key={i}
                 style={{
                   display: 'inline-block',
-                  transform: interpolate([x, y, scale], (x, y, scale) => `translate3d(${x}px,${y}px,0) scale(${scale})`),
+                  transform: interpolate(
+                    [x, y, scale],
+                    (x, y, scale) => `translate3d(${x}px,${y}px,0) scale(${scale})`,
+                  ),
                 }}
               >
-                <NavBarNob name={Nobs[i].name} image={Nobs[i].img} num={i} cb={Props.onElementTap}></NavBarNob>
+                <NavBarNob
+                  name={PagesConfig[i].name}
+                  image={images(PagesConfig[i].image)}
+                  num={i}
+                  cb={Props.onElementTap}
+                ></NavBarNob>
               </animated.div>
             ))}
           </div>

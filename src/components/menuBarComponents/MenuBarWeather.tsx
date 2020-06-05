@@ -9,7 +9,10 @@ export default function MenuBarWeather() {
       <StyledMenuBarWidget>
         <DropDown.Main style={{ height: '100%' }}>
           <VerticallyCenteredSpan style={{ height: '100%' }}>
-            <img style={{ height: '100%' }} src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}></img>
+            <img
+              style={{ height: '100%' }}
+              src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}.png`}
+            ></img>
             {`${Math.round(weather.main.temp)} C°`}
           </VerticallyCenteredSpan>
           <DropDown.Content>
@@ -17,7 +20,10 @@ export default function MenuBarWeather() {
               <div>
                 {weather.name}, {weather.sys.country}
               </div>
-              <img style={{ maxHeight: '100%' }} src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}></img>
+              <img
+                style={{ maxHeight: '100%' }}
+                src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+              ></img>
               <div>{`${Math.round(weather.main.temp)} C°, ${weather.weather[0].main}`}</div>
             </div>
             <div style={{ marginTop: '15px' }}>

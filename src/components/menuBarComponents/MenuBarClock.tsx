@@ -1,16 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { StyledMenuBarWidget, VerticallyCenteredSpan, DropDown } from '../../styled/StyledComponents';
 
-function getNewDate() {
-  const d = new Date();
-  return d;
+const days: Array<string> = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+function getDay(date: Date) {
+  return days[date.getDay()];
+}
+
+function formatHHMM(date: Date) {
+  function z(n: number) {
+    return (n < 10 ? '0' : '') + n;
+  }
+  var h = date.getHours();
+  return z(h % 12) + ':' + z(date.getMinutes()) + ' ' + (h < 12 ? 'AM' : 'PM');
 }
 
 export default function MenuBarClock() {
-  const [date, setClockState] = useState(getNewDate());
+  const [date, setClockState] = useState(new Date());
   useEffect(() => {
     const interval = setInterval(() => {
-      setClockState(getNewDate());
+      setClockState(new Date());
     }, 60000);
     return () => {
       clearInterval(interval);
@@ -19,9 +27,15 @@ export default function MenuBarClock() {
   return (
     <StyledMenuBarWidget>
       <DropDown.Main style={{ height: '100%' }}>
-        <VerticallyCenteredSpan style={{ height: '100%' }}>{date.toLocaleTimeString()}</VerticallyCenteredSpan>
+        <VerticallyCenteredSpan style={{ height: '100%' }}>
+          {getDay(date)} {formatHHMM(date)}
+        </VerticallyCenteredSpan>
         <DropDown.Content style={{ paddingTop: '4px' }}>
-          <div>{date.toLocaleString()}</div>
+          <div>
+            {date.toLocaleDateString()}
+            <br />
+            {getDay(date)} {formatHHMM(date)}
+          </div>
         </DropDown.Content>
       </DropDown.Main>
     </StyledMenuBarWidget>

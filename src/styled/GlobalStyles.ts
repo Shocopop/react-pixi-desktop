@@ -5,6 +5,7 @@ body {
     overflow: hidden;
     font-family: "San Francisco";
     text-align: left;
+
 }
 .align-center {
     text-align: center;

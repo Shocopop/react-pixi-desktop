@@ -15,7 +15,7 @@ export const StyledBody = styled.div`
 
 export const StyledNavbarBlur = styled(animated.div)`
   position: fixed;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(5px);
   left: 0;
   right: 0;
   top: 0;
@@ -25,9 +25,9 @@ export const StyledNavbarBlur = styled(animated.div)`
 
 export const StyledNavbarBackground = styled.div`
   position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
+  left: -2px;
+  right: -2px;
+  top: -2px;
   bottom: 0;
   border-radius: 10px 10px 0px 0px;
   box-shadow: 0 0 2px 0px rgba(0, 0, 0, 0.4);
@@ -77,17 +77,27 @@ export const StyledMenuBarWidget = styled.div`
   // & > div
 `;
 
-export const StyledPage = styled(animated.div)<{ zindex: number; onMouseDown: () => void; style: React.StyleHTMLAttributes<HTMLElement> }>`
+export const StyledPage = styled(animated.div)<{
+  zindex: number;
+  onMouseDown: () => void;
+  style: React.StyleHTMLAttributes<HTMLElement>;
+}>`
   position: absolute;
+  display: flex;
+  flex-direction: column;
   z-index: ${props => props.zindex};
-  box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.4);
   margin: auto;
   border-radius: 5px;
+  box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.4);
 `;
 
 export const StyledPageHeader = styled.div`
+  display: block;
   border-radius: 5px 5px 0 0;
   height: ${appConfig.pageHeaderHeight}px;
+  width: 100%;
   padding: 2;
   background-color: ${props => props.theme.Gray3};
   text-align: center;
@@ -101,30 +111,34 @@ export const StyledPageBody = styled.div`
   border-radius: 0 0 5px 5px;
   padding: 10px;
   height: 100%;
+  width: 100%;
   overflow-y: auto;
   overflow-x: hidden;
   background-color: ${props => props.theme.Gray4};
 `;
 
 export const StyledPageButtonDiv = styled.div`
-  position: absolute;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
   height: 24px;
   width: 60px;
+  padding-left: 10px;
 `;
 
 const _styledPageButton = styled.div<{ hovering: boolean }>`
-  position: absolute;
-  width: 16px;
-  height: 16px;
+  width: 11px;
+  height: 11px;
+  margin-right: 5px;
   padding: 0px;
   top: 4px;
   border-radius: 50%;
   line-height: 16px;
   font-size: 12px;
-  -moz-box-shadow:    inset 0 0 1px rgba(0,0,0,0.4);
-  -webkit-box-shadow: inset 0 0 1px rgba(0,0,0,0.4);
-  box-shadow:         inset 0 0 1px rgba(0,0,0,0.4);
-  // border: ${props => (props.hovering ? 'none' : '1px solid ' + props.theme.Gray5)};
+  -moz-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.4);
+  -webkit-box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.4);
 `;
 
 export const StyledPageButton = {

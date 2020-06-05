@@ -1,49 +1,71 @@
 import React, { useRef, useState, useImperativeHandle } from 'react';
 import { useDrag, useHover, useMove } from 'react-use-gesture';
 import { useSpring, animated, interpolate } from 'react-spring';
-import { StyledPage, StyledPageHeader, StyledPageBody, StyledPageButton, StyledPageButtonDiv } from '../styled/StyledComponents';
+import {
+  StyledPage,
+  StyledPageHeader,
+  StyledPageBody,
+  StyledPageButton,
+  StyledPageButtonDiv,
+} from '../styled/StyledComponents';
 import { PageRefType, ArrowDirections } from './types/PageTypes';
 import { Tuple } from 'react-use-gesture/dist/types';
 import appConfig from '../appConfig';
 const resizeCursorDelta = 4;
 
-const calculateNewSizeAndPosition = function(cursorState: number, x: number, y: number, w: number, h: number, dxy: Tuple<number>) {
+const calculateNewSizeAndPosition = function(
+  cursorState: number,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  minW: number,
+  minH: number,
+  dxy: Tuple<number>,
+) {
+  // make sure that minWidth and minHeight are preserved
+  const rightMaxDW = Math.max(w + dxy[0], minW) - w;
+  const leftMaxDW = Math.max(w - dxy[0], minW) - w;
+  const topMaxDH = Math.max(h - dxy[1], minH) - h;
+  const botMaxDH = Math.max(h + dxy[1], minH) - h;
   // make sure that the window doesn't go above the menu bar
   const topMaxDY = Math.max(appConfig.menuBarHeight + 1, y + dxy[1]) - y;
+  const topDy = Math.min(topMaxDH, topMaxDY);
+
   switch (cursorState) {
     case 1:
-      h -= topMaxDY;
-      y += topMaxDY;
+      h -= topDy;
+      y += topDy;
       break;
     case 2:
-      w += dxy[0];
+      w += rightMaxDW;
       break;
     case 3:
-      h -= topMaxDY;
-      y += topMaxDY;
-      w += dxy[0];
+      h -= topDy;
+      y += topDy;
+      w += rightMaxDW;
       break;
     case 4:
-      h += dxy[1];
+      h += botMaxDH;
       break;
     case 6:
-      h += dxy[1];
-      w += dxy[0];
+      h += botMaxDH;
+      w += rightMaxDW;
       break;
     case 8:
-      w -= dxy[0];
-      x += dxy[0];
+      w += leftMaxDW;
+      x -= leftMaxDW;
       break;
     case 12:
-      w -= dxy[0];
-      x += dxy[0];
-      h += dxy[1];
+      w += leftMaxDW;
+      x -= leftMaxDW;
+      h += botMaxDH;
       break;
     case 9:
-      w -= dxy[0];
-      x += dxy[0];
-      h -= topMaxDY;
-      y += topMaxDY;
+      w += leftMaxDW;
+      x -= leftMaxDW;
+      h -= topDy;
+      y += topDy;
       break;
   }
   return [x, Math.max(y, appConfig.menuBarHeight + 1), w, h];
@@ -57,21 +79,30 @@ const Page = React.forwardRef(
       page: React.FunctionComponent<{}>;
       minWidth: number;
       minHeight: number;
-      width: number;
-      height: number;
       onCloseCb: () => void;
       onFocusCb: () => void;
     },
     ref,
   ) => {
-    const pinedPositionAndSizes = useRef([Props.width, Props.height, (window.innerWidth - Props.width) * 0.5, 100]);
-    const [{ width, height }, setSize] = useSpring(() => ({ width: pinedPositionAndSizes.current[0], height: pinedPositionAndSizes.current[1] }));
-    const [{ xy }, setPosition] = useSpring(() => ({ xy: [pinedPositionAndSizes.current[2], pinedPositionAndSizes.current[3]] }));
+    const pinedPositionAndSizes = useRef([
+      Props.minWidth,
+      Props.minHeight,
+      (window.innerWidth - Props.minWidth) * 0.5,
+      100,
+    ]);
+    const [{ width, height }, setSize] = useSpring(() => ({
+      width: pinedPositionAndSizes.current[0],
+      height: pinedPositionAndSizes.current[1],
+    }));
+    const [{ xy }, setPosition] = useSpring(() => ({
+      xy: [pinedPositionAndSizes.current[2], pinedPositionAndSizes.current[3]],
+    }));
     const [hovering, setHovering] = useState(false);
     const [cursorState, setCursor] = useState(0);
     const bind = useDrag(
       ({ movement: [mx, my] }) => {
-        if (cursorState === 0) setPosition({ xy: [mx, Math.max(my, appConfig.menuBarHeight + 1)], immediate: true });
+        if (cursorState === 0)
+          setPosition({ xy: [mx, Math.max(my, appConfig.menuBarHeight + 1)], immediate: true });
       },
       { initial: () => [xy.get()[0], xy.get()[1]] },
     );
@@ -87,11 +118,21 @@ const Page = React.forwardRef(
             h = pinedPositionAndSizes.current[1];
           let x = pinedPositionAndSizes.current[2],
             y = pinedPositionAndSizes.current[3];
-          [x, y, w, h] = calculateNewSizeAndPosition(cursorState, x, y, w, h, dxy);
+          [x, y, w, h] = calculateNewSizeAndPosition(
+            cursorState,
+            x,
+            y,
+            w,
+            h,
+            Props.minWidth,
+            Props.minHeight,
+            dxy,
+          );
           setSize({ width: w, height: h, immediate: true });
           setPosition({ xy: [x, y], immediate: true });
         },
-        pinPositionAndSizes: () => (pinedPositionAndSizes.current = [width.get(), height.get(), xy.get()[0], xy.get()[1]]),
+        pinPositionAndSizes: () =>
+          (pinedPositionAndSizes.current = [width.get(), height.get(), xy.get()[0], xy.get()[1]]),
       }),
     );
     const moveBind = useMove(
@@ -113,7 +154,7 @@ const Page = React.forwardRef(
         if (Math.abs(pageX - xPos) < resizeCursorDelta) sides[0] = true;
         else if (Math.abs(pageX - xPos + width.get()) < resizeCursorDelta) sides[2] = true;
         if (Math.abs(pageY - yPos) < resizeCursorDelta) sides[3] = true;
-        else if (Math.abs(pageY - yPos + height.get() + appConfig.pageHeaderHeight) < resizeCursorDelta) sides[1] = true;
+        else if (Math.abs(pageY - yPos + height.get()) < resizeCursorDelta) sides[1] = true;
         let sidesTotalIndex = parseInt(sides.map(s => (+s).toString()).join(''), 2);
         setCursor(sidesTotalIndex);
       },

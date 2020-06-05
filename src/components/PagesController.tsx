@@ -1,14 +1,14 @@
 import React, { useState, useRef } from 'react';
 import { useDrag } from 'react-use-gesture';
-import * as pages_cfg from '../pages_cgf.json';
 import _filter from 'lodash/filter';
 import _sortBy from 'lodash/sortBy';
 import Page from './Page';
-import { PageRefType } from './types/PageTypes';
+import { PageRefType, PagesConfig, PageConfigType } from './types/PageTypes';
 const pages = require.context('./pages', false);
 
-let Pages: Array<{ name: string; page: React.FunctionComponent<{}> }> = [];
-for (let i = 0; i < pages_cfg.cfg.length; i++) Pages.push({ name: pages_cfg.cfg[i].name, page: pages(pages_cfg.cfg[i].page).default });
+let Pages: Array<{ page: React.FunctionComponent<{}>; cfg: PageConfigType }> = [];
+for (let i = 0; i < PagesConfig.length; i++)
+  Pages.push({ page: pages(PagesConfig[i].page).default, cfg: PagesConfig[i] });
 const nPages = Pages.length;
 
 export default function PageController(Props: { cb: React.MutableRefObject<(n: number) => void> }) {
@@ -54,15 +54,13 @@ export default function PageController(Props: { cb: React.MutableRefObject<(n: n
         <Page
           ref={dragCallBackRef}
           key={v}
-          name={Pages[v].name}
+          name={Pages[v].cfg.name}
           page={Pages[v].page}
+          minWidth={Pages[v].cfg.minWidth}
+          minHeight={Pages[v].cfg.minHeight}
           zIndex={index}
           onCloseCb={() => setPageInactive(v)}
           onFocusCb={() => bringPageToFront(v)}
-          minWidth={532}
-          minHeight={350}
-          width={532}
-          height={532}
         />
       ))}
     </div>

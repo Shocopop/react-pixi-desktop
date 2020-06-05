@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { FlexContainer, StyledText, ButtonGroup, VerticallyCenteredSpan } from '../../styled/StyledComponents';
+import {
+  FlexContainer,
+  StyledText,
+  ButtonGroup,
+  VerticallyCenteredSpan,
+} from '../../styled/StyledComponents';
 import about from './about/about';
 import experience from './about/experience';
 import github from './about/github';
@@ -27,6 +32,7 @@ export default function Page() {
             onMouseDown={() => {
               setChoosenButton(buttonsInfo[index]);
             }}
+            key={index}
             className={index == chosenButton[2] ? 'checked' : ''}
           >
             {info[0]}

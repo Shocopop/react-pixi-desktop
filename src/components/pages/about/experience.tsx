@@ -7,9 +7,12 @@ export default function experience() {
       <h3>Work Experience</h3>
       <hr />
       <StyledText>
-        I've been working for an Indie GameDev company <a href="http://xi-art.com/">XI-ART</a> more than <b>5</b> years now.
+        I've been working for an Indie GameDev company <a href="http://xi-art.com/">XI-ART</a> more than{' '}
+        <b>5</b> years now.
       </StyledText>
-      <StyledText>Last 2 years I was responsible for creating administrative tools for every game.</StyledText>
+      <StyledText>
+        Last 2 years I was responsible for creating administrative tools for every game.
+      </StyledText>
       <div style={{ marginLeft: '10px' }}>
         <hr />
         <FlexContainer style={{ alignItems: 'flex-start', marginTop: '15px' }}>

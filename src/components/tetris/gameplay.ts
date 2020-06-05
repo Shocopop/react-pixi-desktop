@@ -23,7 +23,12 @@ export class gameplay {
   constructor(app: PIXI.Application) {
     this.nextBlock = block.GetNewRandomBlock();
     this.container = new PIXI.Container();
-    this.stats = { score: 0, lines: 0, blockStats: new Array<number>(blockShapes.length), bestScore: parseInt(Cookies.get('bestScore') || '0') };
+    this.stats = {
+      score: 0,
+      lines: 0,
+      blockStats: new Array<number>(blockShapes.length),
+      bestScore: parseInt(Cookies.get('bestScore') || '0'),
+    };
     this.board = new board(this.container, 10, 20);
     this.board.OnBlockPlaced = blockId => {
       this.stats.blockStats[blockId] = (this.stats.blockStats[blockId] || 0) + 1;
@@ -64,7 +69,12 @@ export class gameplay {
 
   Clear() {
     let bestScore = this.stats.bestScore;
-    this.stats = { score: 0, lines: 0, blockStats: new Array<number>(blockShapes.length), bestScore: bestScore };
+    this.stats = {
+      score: 0,
+      lines: 0,
+      blockStats: new Array<number>(blockShapes.length),
+      bestScore: bestScore,
+    };
     this.ticker.start();
     this.board.AddBlock(block.GetNewRandomBlock());
     this.gameplayUI.RenderNextBlock(this.nextBlock);

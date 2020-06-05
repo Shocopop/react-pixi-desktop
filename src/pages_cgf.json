@@ -1,9 +1,0 @@
-{
-    "pages_path" : "",
-    "cfg":
-    [        
-        {"image": "./info.png", "name":"About", "page":"./about.tsx"},
-        {"image": "./settings.png", "name":"Preferences", "page":"./preferences.tsx"},
-        {"image": "./puzzle.png", "name": "Tetris", "page": "./tetris.tsx"}
-    ]
-}

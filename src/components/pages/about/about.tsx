@@ -1,5 +1,10 @@
 import React from 'react';
-import { FlexContainer, StyledText, ButtonGroup, VerticallyCenteredSpan } from '../../../styled/StyledComponents';
+import {
+  FlexContainer,
+  StyledText,
+  ButtonGroup,
+  VerticallyCenteredSpan,
+} from '../../../styled/StyledComponents';
 import styled from 'styled-components';
 const photo1 = require('../../../img/me4.jpg');
 
@@ -10,8 +15,10 @@ const FaceComponent = styled.img`
   padding: 1px;
   border-radius: 50%;
   border: 5px solid white;
-  box-shadow: inset 0 0 1px 0px white, 0 0 1px 0px white;
   pointer-events: none;
+  box-shadow: inset 0 0 1px 0px white, 0 0 1px 0px white;
+  -moz-box-shadow: inset 0 0 1px 0px white, 0 0 1px 0px white;
+  -webkit-box-shadow: inset 0 0 1px 0px white, 0 0 1px 0px white;
 `;
 
 export default function about() {
