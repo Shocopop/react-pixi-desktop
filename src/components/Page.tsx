@@ -4,20 +4,23 @@ import { useSpring, animated, interpolate } from 'react-spring';
 import { StyledPage, StyledPageHeader, StyledPageBody, StyledPageButton, StyledPageButtonDiv } from '../styled/StyledComponents';
 import { PageRefType, ArrowDirections } from './types/PageTypes';
 import { Tuple } from 'react-use-gesture/dist/types';
+import appConfig from '../appConfig';
 const resizeCursorDelta = 4;
 
 const calculateNewSizeAndPosition = function(cursorState: number, x: number, y: number, w: number, h: number, dxy: Tuple<number>) {
+  // make sure that the window doesn't go above the menu bar
+  const topMaxDY = Math.max(appConfig.menuBarHeight + 1, y + dxy[1]) - y;
   switch (cursorState) {
     case 1:
-      h -= dxy[1];
-      y += dxy[1];
+      h -= topMaxDY;
+      y += topMaxDY;
       break;
     case 2:
       w += dxy[0];
       break;
     case 3:
-      h -= dxy[1];
-      y += dxy[1];
+      h -= topMaxDY;
+      y += topMaxDY;
       w += dxy[0];
       break;
     case 4:
@@ -39,11 +42,11 @@ const calculateNewSizeAndPosition = function(cursorState: number, x: number, y: 
     case 9:
       w -= dxy[0];
       x += dxy[0];
-      h -= dxy[1];
-      y += dxy[1];
+      h -= topMaxDY;
+      y += topMaxDY;
       break;
   }
-  return [x, y, w, h];
+  return [x, Math.max(y, appConfig.menuBarHeight + 1), w, h];
 };
 
 const Page = React.forwardRef(
@@ -68,11 +71,9 @@ const Page = React.forwardRef(
     const [cursorState, setCursor] = useState(0);
     const bind = useDrag(
       ({ movement: [mx, my] }) => {
-        if (cursorState === 0) setPosition({ xy: [mx, my], immediate: true });
+        if (cursorState === 0) setPosition({ xy: [mx, Math.max(my, appConfig.menuBarHeight + 1)], immediate: true });
       },
-      {
-        initial: () => [xy.get()[0], xy.get()[1]],
-      },
+      { initial: () => [xy.get()[0], xy.get()[1]] },
     );
     const hoverBind = useHover(active => {
       setHovering(active.hovering);
@@ -107,13 +108,12 @@ const Page = React.forwardRef(
          *12-4-6
          */
         let [pageX, pageY] = xy.get();
-        let sides = [false, false, false, false]; //[left, bot, right, top]
+        //sides = [left, bot, right, top]
+        let sides = [false, false, false, false];
         if (Math.abs(pageX - xPos) < resizeCursorDelta) sides[0] = true;
         else if (Math.abs(pageX - xPos + width.get()) < resizeCursorDelta) sides[2] = true;
         if (Math.abs(pageY - yPos) < resizeCursorDelta) sides[3] = true;
-        // + 24 is hardcoded - change!!
-        else if (Math.abs(pageY - yPos + height.get() + 24) < resizeCursorDelta) sides[1] = true;
-        // + 24 is hardcoded - change!!
+        else if (Math.abs(pageY - yPos + height.get() + appConfig.pageHeaderHeight) < resizeCursorDelta) sides[1] = true;
         let sidesTotalIndex = parseInt(sides.map(s => (+s).toString()).join(''), 2);
         setCursor(sidesTotalIndex);
       },

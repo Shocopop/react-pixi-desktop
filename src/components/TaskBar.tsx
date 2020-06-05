@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
-import { StyledFooter, StyledNavbar, StyledNavbarBackground, StyledNavbarBlur } from '../styled/StyledComponents';
+import { StyledNavbar, StyledNavbarBackground, StyledNavbarBlur, StyledNavbarContainer } from '../styled/StyledComponents';
 import NavBarNob from './TopBarNob';
-import Container from 'react-bootstrap/Container';
 import { useGesture } from 'react-use-gesture';
 import { useSpring, useSprings, interpolate, animated } from 'react-spring';
 import { clamp } from 'lodash';
@@ -23,41 +22,40 @@ const to = (dn: number, isActive: boolean) => {
   if (!isActive) return { x: 0, y: 0, scale: 1 };
   const dsize = clamp(dn, -1.5, 1.5);
   const _dscale = (1.5 - Math.abs(dsize)) * dScaleSize;
-  return { x: dsize * dxMovement, y: _dscale * NobsDx * 0.5, scale: _dscale + 1 };
+  return { x: dsize * dxMovement, y: -_dscale * NobsDx * 0.5, scale: _dscale + 1 };
 };
 
-export default function TopBar(Props: { onElementTap: (n: number) => void }) {
-  const [springs, set] = useSprings(NumNobs, i => ({ ...to(0, false) }));
-  const [barSpring, setBar] = useSpring(() => ({ scale: 1, x: NobsMidNum }));
+export default function TaskBar(Props: { onElementTap: (n: number) => void }) {
+  const [springs, setNobs] = useSprings(NumNobs, i => ({ ...to(0, false) }));
+  const [barSpring, setBarScaleAndPos] = useSpring(() => ({ scale: 1, x: NobsMidNum }));
   const bind = useGesture({
     onMove: ({ xy }) => {
       const dx = xy[0] - window.innerWidth * 0.5;
       const mouseNx = clamp(NobsMidNum + dx / NobsDx, 0, NumNobs - 1);
       const barOnSidesScale = (Math.max(1 - mouseNx, 0) + Math.max(mouseNx - NumNobs + 2, 0)) * (barScaleEnlarged - 1) * 0.5;
-      setBar({
+      setBarScaleAndPos({
         scale: barScaleEnlarged - barOnSidesScale,
         x: (NobsMidNum - mouseNx) * dxMovement * barOnSidesScale * 0.5,
       });
-      set(i => {
+      setNobs(i => {
         const { x, y, scale } = to(i - mouseNx, true);
         return { x, y, scale, config: { friction: 50, tension: 500 } };
       });
     },
     onHover: active => {
       if (!active.hovering) {
-        set(i => to(0, false));
-        setBar({ scale: 1, x: NobsMidNum });
+        setNobs(i => to(0, false));
+        setBarScaleAndPos({ scale: 1, x: NobsMidNum });
       }
     },
   });
 
   return (
-    <Container>
+    <StyledNavbarContainer style={{ zIndex: NumNobs + 1 }}>
       <StyledNavbar
         style={{
           transform: interpolate([barSpring.scale, barSpring.x], (scale, x) => `translate3d(${x}px,0,0) scale(${scale}, 1)`),
           width: NobsDx * (NumNobs + 0.5) + 'px',
-          zIndex: NumNobs + 1,
         }}
         {...bind()}
       >
@@ -83,6 +81,6 @@ export default function TopBar(Props: { onElementTap: (n: number) => void }) {
           </div>
         </animated.div>
       </StyledNavbar>
-    </Container>
+    </StyledNavbarContainer>
   );
 }

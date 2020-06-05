@@ -3,6 +3,8 @@ import { createGlobalStyle } from 'styled-components';
 export const GlobalTableStyles = createGlobalStyle`
 body {
     overflow: hidden;
+    font-family: "San Francisco";
+    text-align: left;
 }
 .align-center {
     text-align: center;
@@ -12,6 +14,15 @@ body {
 }
 .align-left {
     text-align: left;
+}
+hr {
+  display: block;
+  left: 0;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid ${props => props.theme.Gray2};
+  margin: 1em auto;
+  padding: 0;
 }
 table {
   border-collapse: collapse;
@@ -84,7 +95,7 @@ input:checked + .slider:before {
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
   
 /* Track */
@@ -102,5 +113,11 @@ input:checked + .slider:before {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: ${props => props.theme.Gray2}; 
+}
+
+@font-face {
+  font-family: "San Francisco";
+  font-weight: 400;
+  src: url("https://applesocial.s3.amazonaws.com/assets/styles/fonts/sanfrancisco/sanfranciscodisplay-regular-webfont.woff");
 }
 `;

@@ -26,7 +26,9 @@ export default function PageController(Props: { cb: React.MutableRefObject<(n: n
   }
   const bind = useDrag(
     ({ down, movement }) => {
-      if (down && dragCallBackRef.current) dragCallBackRef.current.setPageSize(movement);
+      if (down && dragCallBackRef.current) {
+        dragCallBackRef.current.setPageSize(movement);
+      }
     },
     {
       initial: () => {
@@ -57,9 +59,8 @@ export default function PageController(Props: { cb: React.MutableRefObject<(n: n
           zIndex={index}
           onCloseCb={() => setPageInactive(v)}
           onFocusCb={() => bringPageToFront(v)}
-          // hardcoded for now
           minWidth={532}
-          minHeight={532}
+          minHeight={350}
           width={532}
           height={532}
         />

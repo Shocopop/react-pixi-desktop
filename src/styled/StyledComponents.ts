@@ -1,5 +1,6 @@
-import styled, { createGlobalStyle } from 'styled-components';
+import styled from 'styled-components';
 import { animated } from 'react-spring';
+import appConfig from '../appConfig';
 
 export const StyledBody = styled.div`
   width: 100vw;
@@ -12,42 +13,68 @@ export const StyledBody = styled.div`
   color: ${props => props.theme.Text};
 `;
 
-export const StyledFooter = styled.div`
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  text-align: right;
-  padding: 5px;
-  background-color: ${props => props.theme.Gray4};
-  user-select: text;
-`;
-
 export const StyledNavbarBlur = styled(animated.div)`
   position: fixed;
-  backdrop-filter: blur(15px);
+  backdrop-filter: blur(10px);
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-  border-radius: 0px 0px 10px 10px;
+  border-radius: 10px 10px 0px 0px;
 `;
 
-export const StyledNavbarBackground = styled(animated.div)`
+export const StyledNavbarBackground = styled.div`
   position: fixed;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-  border-radius: 0px 0px 10px 10px;
+  border-radius: 10px 10px 0px 0px;
   box-shadow: 0 0 2px 0px rgba(0, 0, 0, 0.4);
   background-color: ${props => props.theme.taskbar};
+`;
+
+export const StyledNavbarContainer = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
 `;
 
 export const StyledNavbar = styled(animated.div)`
   position: relative;
   margin: auto;
-  border-radius: 0px 0px 10px 10px;
+`;
+
+export const StyledMenuBar = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: ${appConfig.menuBarHeight}px;
+  padding: 3px;
+  background-color: ${props => props.theme.menubar};
+`;
+
+export const StyledMenuBarCircle = styled.div`
+  position: realtaive;
+  float: left;
+  margin: 2px 2px 2px 7px;
+  width: ${appConfig.menuBarHeight - 10}px;
+  height: ${appConfig.menuBarHeight - 10}px;
+  border-radius: ${(appConfig.menuBarHeight - 4) * 0.5}px;
+  background-color: ${props => props.theme.Gray6};
+`;
+
+export const StyledMenuBarWidget = styled.div`
+  // position: realtaive;
+  line-height: 100%;
+  height: 100%;
+  max-height: 100%;
+  float: right;
+  display: inline-block;
+  margin-left: 15px;
+  // & > div
 `;
 
 export const StyledPage = styled(animated.div)<{ zindex: number; onMouseDown: () => void; style: React.StyleHTMLAttributes<HTMLElement> }>`
@@ -60,7 +87,7 @@ export const StyledPage = styled(animated.div)<{ zindex: number; onMouseDown: ()
 
 export const StyledPageHeader = styled.div`
   border-radius: 5px 5px 0 0;
-  height: 24px;
+  height: ${appConfig.pageHeaderHeight}px;
   padding: 2;
   background-color: ${props => props.theme.Gray3};
   text-align: center;
@@ -117,18 +144,32 @@ export const StyledPageButton = {
   `,
 };
 
-export const StyledTitle = styled.h4`
-  padding: 15px;
-  text-align: center;
-`;
-
-export const StyledText = styled.h6`
-  text-align: left;
-  padding: 8px;
-  max-width: 400px;
+export const StyledText = styled.h5`
+  font-size: 1em;
 `;
 
 export const StyledCard = styled.div`
   margin: 10px;
   box-shadow: -5px 0 5px -2px rgba(0, 0, 0, 0.4), 5px 0 5px -3px rgba(0, 0, 0, 0.4);
 `;
+
+export const VerticallyCenteredSpan = styled.span`
+  display: inline-block;
+  vertical-align: middle;
+  line-height: normal;
+`;
+
+export const FlexContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-around;
+  & > div {
+    // text-align: center;
+    margin: 5px;
+    padding: 5px;
+  }
+`;
+export { ButtonGroup } from './ButtonGroup';
+export { DropDown } from './DropDown';

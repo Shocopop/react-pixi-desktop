@@ -7,9 +7,10 @@ import { Light, Dark, DarkModeContext } from './styled/Themes';
 import { StyledBody } from './styled/StyledComponents';
 import { GlobalTableStyles } from './styled/GlobalStyles';
 import { SetDarkModeTetris } from './components/tetris/utils/constants';
+import Cookies from 'js-cookie';
 
 export default function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(Number.parseInt(Cookies.get('darkMode') || '0') > 0);
   return (
     <div>
       <Helmet>

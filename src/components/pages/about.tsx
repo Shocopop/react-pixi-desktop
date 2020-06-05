@@ -1,34 +1,39 @@
-import React from 'react';
-import { StyledTitle, StyledText, StyledCard } from '../../styled/StyledComponents';
-const photo1 = require('../../img/me3.jpg');
-const photo2 = require('../../img/me2.jpg');
+import React, { useState } from 'react';
+import { FlexContainer, StyledText, ButtonGroup, VerticallyCenteredSpan } from '../../styled/StyledComponents';
+import about from './about/about';
+import experience from './about/experience';
+import github from './about/github';
+import disclaimer from './about/disclaimer';
+
+interface buttonInfoType {
+  0: string;
+  1: React.FunctionComponent<{}>;
+  2: number;
+}
+const buttonsInfo: Array<buttonInfoType> = [
+  ['Information', about, 0],
+  ['Experience', experience, 1],
+  ['Repository', github, 2],
+  ['Disclaimer', disclaimer, 3],
+];
 
 export default function Page() {
+  const [chosenButton, setChoosenButton] = useState(buttonsInfo[0]);
   return (
-    <div style={{ display: 'inline-block' }}>
-      <StyledTitle>Personal Information</StyledTitle>
-      <StyledCard>
-        <table>
-          <tbody>
-            <tr>
-              <td>Name</td>
-              <td className="align-right">Anton Chmyrov</td>
-            </tr>
-            <tr>
-              <td>Nationality</td>
-              <td className="align-right">Belarus, Minsk</td>
-            </tr>
-            <tr>
-              <td>Residence</td>
-              <td className="align-right">Poland, Warsaw</td>
-            </tr>
-          </tbody>
-        </table>
-      </StyledCard>
-      <StyledCard>
-        <img src={photo1} style={{ width: '140px', margin: '15px', display: 'inline-block' }} />
-        <img src={photo2} style={{ width: '188px', margin: '15px', display: 'inline-block' }} />
-      </StyledCard>
+    <div>
+      <ButtonGroup>
+        {buttonsInfo.map((info, index) => (
+          <div
+            onMouseDown={() => {
+              setChoosenButton(buttonsInfo[index]);
+            }}
+            className={index == chosenButton[2] ? 'checked' : ''}
+          >
+            {info[0]}
+          </div>
+        ))}
+      </ButtonGroup>
+      <div style={{ margin: '20px' }}>{React.createElement(chosenButton[1], {})}</div>
     </div>
   );
 }

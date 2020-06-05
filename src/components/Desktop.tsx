@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import PageController from './PagesController';
-import TopBar from './TopBar';
-import { StyledPage, StyledPageHeader, StyledPageBody, StyledPageButton, StyledPageButtonDiv } from '../styled/StyledComponents';
+import TaskBar from './TaskBar';
+import MenuBar from './MenuBar';
 
 // lazy preload light and dark bg
 // change later
@@ -19,7 +19,8 @@ export default function Desktop(Props: {}) {
   console.log('render');
   return (
     <div>
-      <TopBar onElementTap={onNobTouch}></TopBar>
+      <MenuBar></MenuBar>
+      <TaskBar onElementTap={onNobTouch}></TaskBar>
       <PageController cb={numPage}></PageController>
     </div>
   );

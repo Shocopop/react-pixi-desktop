@@ -1,7 +1,8 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { DarkModeContext } from '../../styled/Themes';
 import StyledToggle from '../../styled/StyledToggle';
 import { StyledCard } from '../../styled/StyledComponents';
+import Cookies from 'js-cookie';
 
 export default function Page() {
   const DarkMode = useContext(DarkModeContext);
@@ -14,6 +15,7 @@ export default function Page() {
             checked={DarkMode.DarkMode}
             onClick={(checked: boolean) => {
               DarkMode.SetDarkMode(checked);
+              Cookies.set('darkMode', (+checked).toString());
             }}
           ></StyledToggle>
         </div>

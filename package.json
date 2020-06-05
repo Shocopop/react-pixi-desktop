@@ -19,7 +19,8 @@
     "react-spring": "^9.0.0-rc.3",
     "react-use-gesture": "^7.0.15",
     "request": "^2.88.0",
-    "styled-components": "^4.4.1"
+    "styled-components": "^4.4.1",
+    "use-http": "^1.0.12"
   },
   "devDependencies": {
     "@types/jest": "^24.0.23",

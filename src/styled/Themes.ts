@@ -37,6 +37,7 @@ declare module 'styled-components' {
     Link: string;
     bgImage: string;
     taskbar: string;
+    menubar: string;
   }
 }
 
@@ -55,6 +56,7 @@ export const Light: DefaultTheme = {
   Text: 'rgb(28, 28, 30)',
   Link: 'rgb(100, 50, 200)',
   taskbar: 'rgba(200, 200, 200, 0.35)',
+  menubar: 'rgba(200, 200, 200, 0.8)',
   bgImage: lightBackgroundImage,
 };
 
@@ -68,5 +70,6 @@ export const Dark: DefaultTheme = {
   Text: 'rgb(242, 242, 247)',
   Link: 'rgb(200, 180, 250)',
   taskbar: 'rgba(65, 65, 65, 0.35)',
+  menubar: 'rgba(65, 65, 65, 0.8)',
   bgImage: darkBackgroundImage,
 };
