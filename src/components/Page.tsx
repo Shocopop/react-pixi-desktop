@@ -1,5 +1,6 @@
 import React, { useRef, useState, useImperativeHandle } from 'react';
 import { useDrag, useHover, useMove } from 'react-use-gesture';
+import { clamp } from 'lodash';
 import { useSpring, animated, interpolate } from 'react-spring';
 import {
   StyledPage,
@@ -29,8 +30,9 @@ const calculateNewSizeAndPosition = function(
   const topMaxDH = Math.max(h - dxy[1], minH) - h;
   const botMaxDH = Math.max(h + dxy[1], minH) - h;
   // make sure that the window doesn't go above the menu bar
-  const topMaxDY = Math.max(appConfig.menuBarHeight + 1, y + dxy[1]) - y;
-  const topDy = Math.min(topMaxDH, topMaxDY);
+  const topMinDY = Math.max(appConfig.menuBarHeight + 1, y + dxy[1]) - y;
+  const sign = Math.sign(dxy[1]);
+  const topDy = sign * Math.min(-topMaxDH * sign, topMinDY * sign);
 
   switch (cursorState) {
     case 1:

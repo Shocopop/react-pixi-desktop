@@ -1,10 +1,5 @@
 import React, { useRef } from 'react';
-import {
-  StyledNavbar,
-  StyledNavbarBackground,
-  StyledNavbarBlur,
-  StyledNavbarContainer,
-} from '../styled/StyledComponents';
+import { StyledNavbar, StyledNavbarBackground, StyledNavbarBlur } from '../styled/StyledComponents';
 import NavBarNob from './TopBarNob';
 import { useGesture } from 'react-use-gesture';
 import { useSpring, useSprings, interpolate, animated } from 'react-spring';
@@ -54,47 +49,46 @@ export default function TaskBar(Props: { onElementTap: (n: number) => void }) {
   });
 
   return (
-    <StyledNavbarContainer style={{ zIndex: NumNobs + 1 }}>
-      <StyledNavbar
+    <StyledNavbar
+      style={{
+        zIndex: NumNobs + 1,
+        transform: interpolate(
+          [barSpring.scale, barSpring.x],
+          (scale, x) => `translate3d(${x}px,0,0) scale(${scale}, 1)`,
+        ),
+        width: NobsDx * (NumNobs + 0.5) + 'px',
+      }}
+      {...bind()}
+    >
+      <StyledNavbarBackground></StyledNavbarBackground>
+      <StyledNavbarBlur></StyledNavbarBlur>
+      <animated.div
         style={{
-          transform: interpolate(
-            [barSpring.scale, barSpring.x],
-            (scale, x) => `translate3d(${x}px,0,0) scale(${scale}, 1)`,
-          ),
-          width: NobsDx * (NumNobs + 0.5) + 'px',
+          transform: interpolate([barSpring.scale], scale => `scale(${1 / scale}, 1)`),
         }}
-        {...bind()}
       >
-        <StyledNavbarBackground></StyledNavbarBackground>
-        <StyledNavbarBlur></StyledNavbarBlur>
-        <animated.div
-          style={{
-            transform: interpolate([barSpring.scale], scale => `scale(${1 / scale}, 1)`),
-          }}
-        >
-          <div style={{ textAlign: 'center' }}>
-            {springs.map(({ x, y, scale }, i) => (
-              <animated.div
-                key={i}
-                style={{
-                  display: 'inline-block',
-                  transform: interpolate(
-                    [x, y, scale],
-                    (x, y, scale) => `translate3d(${x}px,${y}px,0) scale(${scale})`,
-                  ),
-                }}
-              >
-                <NavBarNob
-                  name={PagesConfig[i].name}
-                  image={images(PagesConfig[i].image)}
-                  num={i}
-                  cb={Props.onElementTap}
-                ></NavBarNob>
-              </animated.div>
-            ))}
-          </div>
-        </animated.div>
-      </StyledNavbar>
-    </StyledNavbarContainer>
+        <div style={{ textAlign: 'center' }}>
+          {springs.map(({ x, y, scale }, i) => (
+            <animated.div
+              key={i}
+              style={{
+                display: 'inline-block',
+                transform: interpolate(
+                  [x, y, scale],
+                  (x, y, scale) => `translate3d(${x}px,${y}px,0) scale(${scale})`,
+                ),
+              }}
+            >
+              <NavBarNob
+                name={PagesConfig[i].name}
+                image={images(PagesConfig[i].image)}
+                num={i}
+                cb={Props.onElementTap}
+              ></NavBarNob>
+            </animated.div>
+          ))}
+        </div>
+      </animated.div>
+    </StyledNavbar>
   );
 }

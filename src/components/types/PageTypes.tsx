@@ -25,7 +25,7 @@ export interface PageConfigType {
   minHeight: number;
 }
 export const PagesConfig: Array<PageConfigType> = [
-  { image: './info.png', name: 'About', page: './about.tsx', minWidth: 512, minHeight: 320 },
+  { image: './info.png', name: 'About', page: './about.tsx', minWidth: 512, minHeight: 512 },
   { image: './settings.png', name: 'Preferences', page: './preferences.tsx', minWidth: 300, minHeight: 130 },
   { image: './puzzle.png', name: 'Tetris', page: './tetris.tsx', minWidth: 600, minHeight: 600 },
 ];
